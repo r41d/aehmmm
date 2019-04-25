@@ -1,6 +1,8 @@
 using Gtk;
 
 int main(string[] args) {
+	var filename = new DateTime.now_local().format("aehmmm-%Y-%m-%d_%H-%M-%S.csv");
+	var logfile = File.new_for_path(filename);
 	var count = 0;
 
 	Gtk.init(ref args);
@@ -18,6 +20,16 @@ int main(string[] args) {
 	button.clicked.connect(() => {
 		count++;
 		label.set_text(count.to_string());
+		var dt = new DateTime.now_local();
+		var ts = dt.to_unix();
+		print(ts.to_string());
+		try {
+			// Append new line:
+			var stream = logfile.append_to(FileCreateFlags.NONE);
+			stream.write(ts.to_string().concat("\n").data);
+		} catch(Error e) {
+			print("Error: %s\n", e.message);
+		}
 	});
 	
 	var obenunten = new Paned(Gtk.Orientation.VERTICAL);
