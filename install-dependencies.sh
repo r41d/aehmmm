@@ -1,1 +1,1 @@
-apt install valac python3-matplotlib
+apt install valac libgtk-3-dev python3-matplotlib
